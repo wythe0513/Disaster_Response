@@ -19,7 +19,7 @@ Download [app](https://github.com/wythe0513/Disaster_Response/tree/master/app), 
 
 For the purpose to analyze disaster data from [Figure Eight](https://appen.com/) to build a maschine leranig pipeline model for an API that classifies disaster messages so that you can send the messages to an appropriate disaster relief agency.
 
-A data set contains real messages that were sent during disaster events. 
+A data set contains real messages that were sent during disaster events.
 
 ## File Description
 Following is the file structure of the project:
@@ -31,16 +31,16 @@ Following is the file structure of the project:
 >- go.html : classification result page of web app<br>
 
 
-2. [data](https://github.com/wythe0513/Disaster_Response/tree/master/data) folder 
+2. [data](https://github.com/wythe0513/Disaster_Response/tree/master/data) folder
 
->- disaster_categories.csv : data to process 
+>- disaster_categories.csv : data to process
 >- disaster_messages.csv : data to process
 >- process_data.py : model to process data
 >- InsertDatabaseName.db : database to save clean data to
 
 3. [models](https://github.com/wythe0513/Disaster_Response/tree/master/models) holder
 > - train_classifier.py : model to train and store classifier
-> - classifier.pkl : saved model 
+> - classifier.pkl : saved model
 
 
 ## Results
