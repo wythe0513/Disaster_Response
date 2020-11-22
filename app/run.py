@@ -43,6 +43,11 @@ def index():
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
 
+    related_counts = df[['aid_related','infrastructure_related','weather_related']].sum()
+    related_names = list(related_counts.index)
+
+    aid_related = df.loc[:,'medical_help':'other_aid'].sum().plot(kind='bar')
+    aid_names = list(aid_related.index)
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
     graphs = [
@@ -67,36 +72,36 @@ def index():
         {
             'data': [
                 Bar(
-                    x=genre_names,
-                    y=genre_counts
+                    x=related_names,
+                    y=related_counts
                 )
             ],
 
             'layout': {
-                'title': 'Distribution of Message Genres',
+                'title': 'Distribution of Aid/Infrastructure/Weather',
                 'yaxis': {
                     'title': "Count"
                 },
                 'xaxis': {
-                    'title': "Genre"
+                    'title': "Category"
                 }
             }
         },
         {
             'data': [
                 Bar(
-                    x=genre_names,
-                    y=genre_counts
+                    x=aid_names,
+                    y=aid_related
                 )
             ],
 
             'layout': {
-                'title': 'Distribution of Message Genres',
+                'title': 'Distribution of Aides',
                 'yaxis': {
                     'title': "Count"
                 },
                 'xaxis': {
-                    'title': "Genre"
+                    'title': "Category of Aids"
                 }
             }
         }
