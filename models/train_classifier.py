@@ -26,16 +26,30 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 import pickle
 
 def load_data(database_filepath):
+
+    """
+    Function to load the messages and categories from database
+    input: database_filepath
+    output: X, Y and category_names
+
+    """
     engine = create_engine('sqlite:///{}'.format(database_filepath))
     df = pd.read_sql('df', engine)
     X = df.message.values
     Y = df[df.columns[4:]]
     category_names = Y.columns
-    
+
     return X, Y, category_names
 
 
 def tokenize(text):
+
+    """
+    Function to tokenize
+    Input: text
+    output: clean_tokens
+
+    """
     url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
     detected_urls = re.findall(url_regex, text)
     for url in detected_urls:
@@ -53,23 +67,39 @@ def tokenize(text):
 
 
 def build_model():
-    
+
+    """
+    Function to build classifier model
+    Input: None
+    Output: GridserchCV(pipeline, param_grid=parameters)
+
+    """
+
     pipeline = Pipeline([
     ('vect',CountVectorizer(tokenizer=tokenize)),
     ('tfidf', TfidfTransformer()),
     ('clf',MultiOutputClassifier(RandomForestClassifier(n_jobs=-1))),
    ])
+
     parameters = parameters = {
         'clf__estimator__n_estimators': [100],
         'clf__estimator__min_samples_leaf': [10]
     }
-    
+
     return GridSearchCV(pipeline, param_grid=parameters)
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
+
+    """
+    Function to evaluate model
+    Input: model, X_test, Y_test, category_names
+    output: classification_report
+
+    """
     Y_pred = model.predict(X_test)
-    print(classification_report)
+
+    print(classification_report(Y_test, Y_pred, target_names=category_names)
 
 
 def save_model(model, model_filepath):
@@ -82,13 +112,13 @@ def main():
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
         X, Y, category_names = load_data(database_filepath)
         X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
-        
+
         print('Building model...')
         model = build_model()
-        
+
         print('Training model...')
         model.fit(X_train, Y_train)
-        
+
         print('Evaluating model...')
         evaluate_model(model, X_test, Y_test, category_names)
 
