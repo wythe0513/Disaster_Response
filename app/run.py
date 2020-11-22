@@ -46,7 +46,7 @@ def index():
     related_counts = df[['aid_related','infrastructure_related','weather_related']].sum()
     related_names = list(related_counts.index)
 
-    aid_related = df.loc[:,'medical_help':'other_aid'].sum().plot(kind='bar')
+    aid_related = df.loc[:,'medical_help':'other_aid'].sum()
     aid_names = list(aid_related.index)
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
